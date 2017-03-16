@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "module": "es2015",
+        "moduleResolution": "node",
+        "target": "es6",
+        "allowSyntheticDefaultImports": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "skipLibCheck": true,
+        "noUnusedLocals": false,
+        "sourceMap": false,
+        "strictNullChecks": true,
+        "lib": [
+            "dom",
+            "es5",
+            "es2015.promise"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
