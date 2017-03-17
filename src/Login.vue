@@ -9,24 +9,27 @@
         <label>Is Member :
             <input type="checkbox" v-model="isMember" :checked="isMember">
         </label>
-        <input type="button" @click="send" value="Login">
+        <input type="button" @click="send" value="Login" :disabled="btnDisable">
     </div>
 </template>
 
 <script lang="ts">
-    import Vue from 'vue'
-    import Component from 'vue-class-component'
-    import {SetToken,GenBasicHeader} from './lib/auth'
-    import 'whatwg-fetch'
+    import Vue from "vue"
+    import Component from "vue-class-component"
+    import {router} from "./router"
+    import {SetToken,GenBasicHeader} from "./lib/auth"
+    import "whatwg-fetch"
 
     @Component
     export default class LoginApp extends Vue {
         username = ""
         password = ""
         isMember = true
+        btnDisable = false
 
         send() {
             console.log('clicked!')
+            this.btnDisable = true
             fetch('/api/token?is_member=' + this.isMember, {
                 method: "GET",
                 headers: {
@@ -38,9 +41,12 @@
                     if (rawHeader != null) {
                         SetToken(rawHeader.split(' ')[1])
                     }
+                    router.push("/dashboard")
                 } else if (r.status == 401) {
-                    console.log("認証に失敗しました")
+                    alert("認証に失敗しました")
                 }
+            }).then(() => {
+                this.btnDisable = false
             })
         }
     }

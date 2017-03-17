@@ -10,16 +10,23 @@ export class JWT {
     username: string
 
     constructor(token: string) {
-        return JSON.parse(
+        let obj = JSON.parse(
             window.atob(
                 token.split(".")[1]
                     .replace("-", "+")
                     .replace("_", "/")
             )
         )
+        this.exp = obj.exp
+        this.isRegister = obj.is_register
+        this.iat = obj.iat
+        this.isMember = obj.is_member
+        this.scopes = obj.scopes
+        this.sub = obj.sub
+        this.username = obj.user_name
     }
 
-    isValid(): boolean {
+    isValid (): boolean {
         console.log("[isValid] " + this.exp)
         return Date.now() / 1000 < this.exp
     }
@@ -27,7 +34,7 @@ export class JWT {
 
 export function GetToken(): null | JWT {
     let token = sessionStorage.getItem(KEY)
-    if (token == null) {
+    if (token === null) {
         return null
     } else {
         return new JWT(token)
