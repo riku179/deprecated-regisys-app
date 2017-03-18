@@ -1,15 +1,23 @@
 import Vue from "vue"
 import VueRouter from "vue-router"
-import * as auth from "./lib/auth"
 Vue.use(VueRouter)
+import * as auth from "./lib/auth"
 import LoginApp from "./Login.vue"
 import DashboardApp from "./Dashboard.vue"
+import GoodsApp from "./GoodsApp.vue"
+import OrdersApp from "./OrdersApp.vue"
+import UsersApp from "./UsersApp.vue"
+import RegisterApp from "./RegisterApp.vue"
 
 export const router = new VueRouter({
     routes: [
         { path: "/", redirect: "/login" },
         { path: "/login", component: LoginApp },
         { path: "/dashboard", component: DashboardApp },
+        { path: "/goods", component: GoodsApp },
+        { path: "/orders", component: OrdersApp },
+        { path: "/users", component: UsersApp },
+        { path: "/register", component: RegisterApp }
     ]
 })
 

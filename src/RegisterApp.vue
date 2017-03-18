@@ -1,5 +1,6 @@
-<template>
-    $TEMPLATE$
+<template lang="pug">
+    .container
+        app-navbar
 </template>
 
 <script lang="ts">

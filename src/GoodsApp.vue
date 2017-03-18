@@ -1,5 +1,7 @@
-<template>
-    $TEMPLATE$
+<template lang="pug">
+    .container
+        app-navbar
+        label Goooods!!!!!!!!!!
 </template>
 
 <script lang="ts">
