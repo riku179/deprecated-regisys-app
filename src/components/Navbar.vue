@@ -1,5 +1,5 @@
 <template lang="pug">
-    nav.navbar.navbar-default
+    nav.navbar.navbar-default.navbar-static-top
         .container-fluid
             .navbar-header
                 button.navbar-toggle.collapsed(
@@ -59,7 +59,7 @@
 
         get authority() {
             if (this.jwt != null) {
-                return this.jwt.isRegister ? "Normal" : "Register"
+                return this.jwt.isRegister ? "Register" : "Normal"
             }
         }
     }

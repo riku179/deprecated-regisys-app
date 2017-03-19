@@ -4,7 +4,7 @@ Vue.use(VueRouter)
 import * as auth from "./lib/auth"
 import LoginApp from "./Login.vue"
 import DashboardApp from "./Dashboard.vue"
-import GoodsApp from "./GoodsApp.vue"
+import ItemsApp from "./ItemsApp.vue"
 import OrdersApp from "./OrdersApp.vue"
 import UsersApp from "./UsersApp.vue"
 import RegisterApp from "./RegisterApp.vue"
@@ -14,7 +14,7 @@ export const router = new VueRouter({
         { path: "/", redirect: "/login" },
         { path: "/login", component: LoginApp },
         { path: "/dashboard", component: DashboardApp },
-        { path: "/goods", component: GoodsApp },
+        { path: "/items", component: ItemsApp },
         { path: "/orders", component: OrdersApp },
         { path: "/users", component: UsersApp },
         { path: "/register", component: RegisterApp }

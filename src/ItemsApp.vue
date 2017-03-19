@@ -1,7 +1,7 @@
 <template lang="pug">
     .container
         app-navbar
-        label Goooods!!!!!!!!!!
+        h2 Items
 </template>
 
 <script lang="ts">
@@ -9,6 +9,6 @@
     import Component from 'vue-class-component'
 
     @Component
-    export default class GoodsApp extends Vue {
+    export default class ItemsApp extends Vue {
     }
 </script>

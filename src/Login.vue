@@ -4,7 +4,7 @@
         label UserName :
             input(type="text" placeholder="UserName" v-model="username")
         label Password :
-            input(type="text" placeholder="Password" v-model="password")
+            input(type="password" placeholder="Password" v-model="password")
         label Is Member :
             input(type="checkbox" v-model="isMember", :checked="isMember")
         br
