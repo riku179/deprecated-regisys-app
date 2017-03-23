@@ -27,7 +27,6 @@ export class JWT {
     }
 
     isValid (): boolean {
-        console.log("[isValid] " + this.exp)
         return Date.now() / 1000 < this.exp
     }
 }
@@ -51,4 +50,9 @@ export function RemoveToken() {
 
 export function GenBasicHeader(username: string, password: string) {
     return "Basic " + window.btoa(username + ":" + password)
+}
+
+export function GenJWTHeader() {
+    let token = sessionStorage.getItem(KEY) as string
+    return { Authorization: "Bearer " + token }
 }

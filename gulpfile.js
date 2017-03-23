@@ -32,6 +32,7 @@ gulp.task('watch', function () {
     gulp.watch([
         './src/**/*.ts',
         './src/**/*.vue',
+        './src/**/*.pug',
         './dst/index.html'
     ], ['webpack']);
 });

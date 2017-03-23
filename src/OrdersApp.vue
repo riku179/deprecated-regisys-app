@@ -1,7 +1,4 @@
-<template lang="pug">
-    .container
-        app-navbar
-</template>
+<template lang="pug" src="./template/OrdersApp.pug"></template>
 
 <script lang="ts">
     import Vue from 'vue'

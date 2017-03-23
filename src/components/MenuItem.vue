@@ -1,5 +1,5 @@
 <template lang="pug">
-    li(:class="isActive", :style="{ display: isDisplay }")
+    li(:class="{ active: isActive }", :style="{ display: isDisplay }")
         router-link(:to="menu.path") {{ menu.val }}
 </template>
 
@@ -16,11 +16,7 @@
         menu: IMenu
 
         get isActive() {
-            return { active: (this.menu.path === this.$route.path) }
-        }
-
-        created() {
-            console.log("[pathcheck] " + (this.menu.path === this.$route.path))
+            return this.menu.path === this.$route.path
         }
 
         get isDisplay() {

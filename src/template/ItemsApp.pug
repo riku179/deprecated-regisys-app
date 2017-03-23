@@ -1,0 +1,32 @@
+.container
+  app-navbar
+  h2 Items
+  ul.nav.nav-tabs
+    li(:class="{ active: menu === 'user' }", @click="menu = 'user'" role="presentation")
+      a あなたの商品
+    li(:class="{ active: menu === 'all' }", @click="switchList" role="presentation")
+      a 全商品
+  table.table
+    thead
+      tr
+        th ID
+        th 商品名
+        th 価格
+        th 部員価格
+        th 数量
+    template(v-if="menu === 'user'")
+      tbody
+        tr(v-for="item in userItems")
+          th {{ item.id }}
+          th {{ item.item_name }}
+          th {{ item.price }}
+          th {{ item.member_price }}
+          th {{ item.quantity }}
+    template(v-else-if="menu === 'all'")
+      tbody
+        tr(v-for="item in allItems")
+          th {{ item.id }}
+          th {{ item.item_name }}
+          th {{ item.price }}
+          th {{ item.member_price }}
+          th {{ item.quantity }}

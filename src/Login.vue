@@ -1,15 +1,4 @@
-<template lang="pug">
-    .container
-        app-navbar(:loginInit="false")
-        label UserName :
-            input(type="text" placeholder="UserName" v-model="username")
-        label Password :
-            input(type="password" placeholder="Password" v-model="password")
-        label Is Member :
-            input(type="checkbox" v-model="isMember", :checked="isMember")
-        br
-        input.btn.btn-default(type="button", @click="send", value="Login", :disabled="btnDisable")
-</template>
+<template lang="pug" src="./template/Login.pug"></template>
 
 <script lang="ts">
     import Vue from "vue"
