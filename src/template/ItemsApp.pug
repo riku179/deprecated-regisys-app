@@ -1,6 +1,10 @@
 .container
   app-navbar
   h2 Items
+  button.btn.btn-default(type="button", @click="showModal = true") Show Modal
+  modal(v-if="showModal", @close="showModal = false")
+    template(slot="header") Custom Header!
+    p custom body!
   ul.nav.nav-tabs
     li(:class="{ active: menu === 'user' }", @click="menu = 'user'" role="presentation")
       a あなたの商品

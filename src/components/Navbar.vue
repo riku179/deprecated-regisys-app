@@ -15,6 +15,8 @@
         }
     })
     export default class NavbarApp extends Vue {
+        name = "app-navbar"
+
         @Prop
         loginInit: boolean
 

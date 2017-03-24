@@ -10,6 +10,7 @@
 
     @Component
     export default class ItemsApp extends Vue {
+        showModal = false // test
         userItems: Array<Item> = []
         allItems: Array<Item> = []
         jwt = auth.GetToken() as auth.JWT

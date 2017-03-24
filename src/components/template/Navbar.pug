@@ -12,7 +12,7 @@ nav.navbar.navbar-default.navbar-static-top
       router-link.navbar-brand(to="/dashboard") Regisys
     #menu.collapse.navbar-collapse
       ul.nav.navbar-nav(v-if="login")
-        li(is="menu-item" v-for="(menu, index) in menus",
+        menu-item(v-for="(menu, index) in menus",
         :key="menu",
         :menu="menu")
       button.btn.btn-default.navbar-btn.navbar-right(

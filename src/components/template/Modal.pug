@@ -1,0 +1,12 @@
+transition(name="modal")
+  .vuemodal-mask
+    .vuemodal-wrapper
+      .vuemodal-container
+        .vuemodal-header
+          h3
+            slot(name="header") default header
+        .vuemodal-body
+          slot default body
+        .vuemodal-footer
+          slot(name="footer") default footer
+        a#close(@click="$emit('close')") OK
