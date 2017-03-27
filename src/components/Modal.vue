@@ -36,7 +36,7 @@
     .vuemodal-container
         position: relative
         z-index: 9999
-        width: 300px
+        width: 400px
         margin: 0 auto
         padding: 20px 30px
         background-color: #fff
@@ -52,7 +52,12 @@
         color: #428bca
 
     .vuemodal-body
-        margin: 20px 0
+        margin: 0 auto
+        width 80%
+
+    .vuemodal-footer
+        margin auto
+        width 80%
 
     // 以下vueのイベントフック
     .modal-enter, .modal-leave-active

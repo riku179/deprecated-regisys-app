@@ -1,28 +1,51 @@
 .container
   app-navbar
+
   h2 Items
+
   button.btn.btn-primary.pull-right(type="button", @click="showModal = true") 新規登録
+
   modal(v-if="showModal", @close="showModal = false")
     template(slot="header") 新規商品登録
-    .form-group
-      label 商品名
-        input.form-control(type="text" v-model="newItemName")
-    .form-group
-      label 一般価格
-        input.form-control(type="text" v-model.number="newItemPrice")
-    .form-group
-      label 部員価格
-        input.form-control(type="text" v-model.number="newItemMemPrice")
-    .form-group
-      label 個数
-        input.form-control(type="text" v-model.number="newItemQuantity")
+
+    //- modal body
+    .form-group(:class="{ 'has-error': !itemNameIsValid }")
+      label.control-label 商品名
+      input.form-control(type="text" v-model.trim="newItemName" placeholder="学位記")
+      label.control-label(v-if="!itemNameIsValid") ２０文字以上もしくは空白のみは不可です
+
+    .form-group(:class="{ 'has-error': !itemPriceIsValid }")
+      label.control-label 一般価格
+      .input-group
+        span.input-group-addon ￥
+        input.form-control(type="text" v-model.number.trim="newItemPrice"   placeholder="130")
+      label.control-label(v-if="!itemPriceIsValid") 入力が不正です
+
+    .form-group(:class="{ 'has-error': !memDiscountIsValid }")
+      label.control-label 部員への割引
+      .input-group
+        span.input-group-addon ￥
+        input.form-control(type="text" v-model.number.trim="memberDiscount")
+      label.control-label(v-if="!memDiscountIsValid") 入力が不正です
+
+      label
+        span.glyphicon.glyphicon-circle-arrow-right(aria-hidden="true")  部員価格 : ￥{{ newItemPrice - memberDiscount }}
+
+    .form-group(:class="{ 'has-error': !itemQuantityIsValid }")
+      label.control-label 個数
+      input.form-control(type="text" v-model.number.trim="newItemQuantity"   placeholder="3")
+      label.control-label(v-if="!itemQuantityIsValid") 入力が不正です
+
     template(slot="footer")
-      button.btn.btn-default(type="button", @click="addItem") 追加
+      button.btn.btn-default.add-btn(type="button", @click="addItem") 追加
+      .alert.alert-danger(v-if="fetchError" role="alert") {{ fetchError }}
+
   ul.nav.nav-tabs
-    li(:class="{ active: menu === 'user' }", @click="switchUserList" role="presentation")
+    li(:class="{ active: menu === 'user'}", @click="switchUserList" role="presentation")
       a あなたの商品
     li(:class="{ active: menu === 'all' }", @click="switchAllList" role="presentation")
       a 全商品
+
   table.table
     thead
       tr
