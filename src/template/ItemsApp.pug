@@ -1,14 +1,27 @@
 .container
   app-navbar
   h2 Items
-  button.btn.btn-default(type="button", @click="showModal = true") Show Modal
+  button.btn.btn-primary.pull-right(type="button", @click="showModal = true") 新規登録
   modal(v-if="showModal", @close="showModal = false")
-    template(slot="header") Custom Header!
-    p custom body!
+    template(slot="header") 新規商品登録
+    .form-group
+      label 商品名
+        input.form-control(type="text" v-model="newItemName")
+    .form-group
+      label 一般価格
+        input.form-control(type="text" v-model.number="newItemPrice")
+    .form-group
+      label 部員価格
+        input.form-control(type="text" v-model.number="newItemMemPrice")
+    .form-group
+      label 個数
+        input.form-control(type="text" v-model.number="newItemQuantity")
+    template(slot="footer")
+      button.btn.btn-default(type="button", @click="addItem") 追加
   ul.nav.nav-tabs
-    li(:class="{ active: menu === 'user' }", @click="menu = 'user'" role="presentation")
+    li(:class="{ active: menu === 'user' }", @click="switchUserList" role="presentation")
       a あなたの商品
-    li(:class="{ active: menu === 'all' }", @click="switchList" role="presentation")
+    li(:class="{ active: menu === 'all' }", @click="switchAllList" role="presentation")
       a 全商品
   table.table
     thead

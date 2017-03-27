@@ -40,19 +40,19 @@ export function GetToken(): null | JWT {
     }
 }
 
-export function SetToken(token: string) {
+export function SetToken(token: string): void {
     sessionStorage.setItem(KEY, token)
 }
 
-export function RemoveToken() {
+export function RemoveToken(): void {
     sessionStorage.removeItem(KEY)
 }
 
-export function GenBasicHeader(username: string, password: string) {
+export function GenBasicHeader(username: string, password: string): string {
     return "Basic " + window.btoa(username + ":" + password)
 }
 
-export function GenJWTHeader() {
+export function GenJWTHeader(): string {
     let token = sessionStorage.getItem(KEY) as string
-    return { Authorization: "Bearer " + token }
+    return "Bearer " + token
 }

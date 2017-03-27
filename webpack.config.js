@@ -9,7 +9,7 @@ module.exports = {
     output: {
         path: require("path").resolve("./dst/js/"), filename: 'main.js'
     },
-    devtool: "source-map",
+    devtool: "cheap-module-eval-source-map",
     resolve: {
         extensions: ['.ts', '.vue', '.js'],
         alias: {
