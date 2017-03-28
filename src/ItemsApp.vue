@@ -73,25 +73,25 @@
 
         addItem() {
             // TODO コンポーネント化
-            if( this.newItemName.length === 0 || this.newItemName.length > 20) {
+            if(this.newItemName.length === 0 || this.newItemName.length > 20) {
                 this.itemNameIsValid = false
                 return
             } else {
                 this.itemNameIsValid = true
             }
-            if(!validNaturalNum(this.newItemPrice) && Number(this.newItemPrice) > 0) {
+            if(!validNaturalNum(this.newItemPrice) || Number(this.newItemPrice) === 0) {
                 this.itemPriceIsValid = false
                 return
             } else {
                 this.itemPriceIsValid = true
             }
-            if(!validNaturalNum(this.memberDiscount)) {
+            if(!validNaturalNum(this.memberDiscount) || (Number(this.newItemPrice) < Number(this.memberDiscount))) {
                 this.memDiscountIsValid = false
                 return
             } else {
                 this.memDiscountIsValid = true
             }
-            if(!validNaturalNum(this.newItemQuantity) && Number(this.newItemQuantity) > 0) {
+            if(!validNaturalNum(this.newItemQuantity) || Number(this.newItemQuantity) === 0) {
                 console.log(this.newItemQuantity)
                 this.itemQuantityIsValid = false
                 return
@@ -111,19 +111,22 @@
                     quantity: this.newItemQuantity,
                 })
             }).then(r => {
-                // TODO エラー時は閉じずにエラー表示
-                this.showModal = false
-                this.switchUserList()
+                    if(r.ok) {
+                        this.showModal = false
+                        this.switchUserList()
+                    } else {
+                        this.fetchError = r.statusText
+                    }
                 },
                 err => {
-                this.fetchError = err
+                this.fetchError = "ネットワークエラーが発生しました"
                 console.log(err)
             })
         }
     }
 
     function validNaturalNum(data: string): boolean {
-        if(/\d.*/.test(data)) {
+        if(/^\d.*$/.test(data)) {
             return true
         } else {
             return false
