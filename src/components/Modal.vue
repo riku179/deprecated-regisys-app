@@ -3,10 +3,15 @@
 <script lang="ts">
     import Vue from 'vue'
     import Component from 'vue-class-component'
+    import {Prop} from "vue-property-decorator";
 
     @Component
     export default class Modal extends Vue {
+        @Prop
+        initWidth: number
+
         name = "modal"
+        width = this.initWidth || 400
     }
 </script>
 
@@ -47,6 +52,9 @@
         #close
             cursor: pointer
 
+    .vuemodal-container span.glyphicon:hover
+        color rgba(0, 0, 0, .5)
+
     .vuemodal-header h3
         margin-top: 0
         color: #428bca
@@ -58,6 +66,7 @@
     .vuemodal-footer
         margin auto
         width 80%
+        text-align center
 
     // 以下vueのイベントフック
     .modal-enter, .modal-leave-active

@@ -52,7 +52,7 @@ export function GenBasicHeader(username: string, password: string): string {
     return "Basic " + window.btoa(username + ":" + password)
 }
 
-export function GenJWTHeader(): string {
+export function GetJWTHeader(): string {
     let token = sessionStorage.getItem(KEY) as string
     return "Bearer " + token
 }

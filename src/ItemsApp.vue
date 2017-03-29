@@ -4,7 +4,7 @@
     import Vue from "vue"
     import Component from "vue-class-component"
     import {Item} from "./types"
-    import {GenJWTHeader} from "./lib/auth"
+    import {GetJWTHeader} from "./lib/auth"
     import * as auth from "./lib/auth"
     import "whatwg-fetch"
 
@@ -13,10 +13,14 @@
         // タブメニュー
         menu: Menu = "user"
         // Modal
-        showModal = false
+        showAddModal = false
+        showEditModal = false
+        showRemoveModal = false
         // List
         userItems: Array<Item> = []
         allItems: Array<Item> = []
+
+        currentItem: Item
 
         jwt = auth.GetToken() as auth.JWT
         // Form
@@ -43,7 +47,7 @@
             fetch("/api/item?user=" + this.jwt.sub, {
                 method: "GET",
                 headers: {
-                    "Authorization": GenJWTHeader()
+                    "Authorization": GetJWTHeader()
                 }
             }).then(r => {
                 r.json().then(data => {
@@ -59,7 +63,7 @@
             fetch("/api/item", {
                 method: "GET",
                 headers: {
-                    "Authorization": GenJWTHeader()
+                    "Authorization": GetJWTHeader()
                 }
             }).then(r => {
                 r.json().then(data => {
@@ -101,7 +105,7 @@
             fetch("/api/item", {
                 method: "POST",
                 headers: {
-                    "Authorization": GenJWTHeader(),
+                    "Authorization": GetJWTHeader(),
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
@@ -112,7 +116,8 @@
                 })
             }).then(r => {
                     if(r.ok) {
-                        this.showModal = false
+                        this.fetchError = ""
+                        this.showAddModal = false
                         this.switchUserList()
                     } else {
                         this.fetchError = r.statusText
@@ -121,6 +126,50 @@
                 err => {
                 this.fetchError = "ネットワークエラーが発生しました"
                 console.log(err)
+            })
+        }
+
+        openEditItemModal(item: Item) {
+            this.currentItem = item
+            this.showEditModal = true
+        }
+
+        openRemoveItemModal(item: Item) {
+            this.currentItem = item
+            this.showRemoveModal = true
+        }
+
+        editItem() {
+            fetch("/api/item/" + this.currentItem.id, {
+                method: "PUT",
+                headers: {
+                    "Authorization": GetJWTHeader(),
+                },
+                body: JSON.stringify({
+                    item_name: this.newItemName,
+                    price: this.newItemPrice,
+                    member_price: Number(this.newItemPrice) - Number(this.memberDiscount),
+                    quantity: this.newItemQuantity,
+                })
+            }).then(r => {
+                if(r.ok) {
+                    this.showEditModal = false
+                    this.switchUserList()
+                }
+            })
+        }
+
+        removeItem() {
+            fetch("/api/item/" + this.currentItem.id, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": GetJWTHeader(),
+                }
+            }).then(r => {
+                if(r.ok) {
+                    this.showRemoveModal = false
+                    this.switchUserList()
+                }
             })
         }
     }
@@ -140,6 +189,28 @@
     .add-btn
         width 100%
 
+    .edit-btn, .remove-btn, .cancel-btn
+        margin 0 20px 0
+
     input.form-control
         width 100%
+
+    th > span.glyphicon
+        cursor pointer
+        margin 0 4px 0
+
+    th > span.glyphicon:hover
+        color rgba(0, 0, 0, .5)
+
+    /*span.glyphicon.glyphicon-circle-arrow-right*/
+        /*size 20px*/
+        /*height 20px*/
+        /*margin auto*/
+
+    // TODO 矢印を上下中央に合わせる
+    .editModalArrow
+        height 300px
+        display table-cell
+        vertical-align middle
+
 </style>
