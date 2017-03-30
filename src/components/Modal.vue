@@ -49,10 +49,11 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, .33)
         transition: all .3s ease
         font-family: Helvetica, Arial, sans-serif
-        #close
-            cursor: pointer
 
-    .vuemodal-container span.glyphicon:hover
+    .close-btn
+        cursor: pointer
+
+    .close-btn:hover
         color rgba(0, 0, 0, .5)
 
     .vuemodal-header h3
@@ -60,7 +61,7 @@
         color: #428bca
 
     .vuemodal-body
-        margin: 0 auto
+        margin: auto
         width 80%
 
     .vuemodal-footer

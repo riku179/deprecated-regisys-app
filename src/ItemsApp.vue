@@ -202,15 +202,6 @@
     th > span.glyphicon:hover
         color rgba(0, 0, 0, .5)
 
-    /*span.glyphicon.glyphicon-circle-arrow-right*/
-        /*size 20px*/
-        /*height 20px*/
-        /*margin auto*/
-
-    // TODO 矢印を上下中央に合わせる
-    .editModalArrow
-        height 300px
-        display table-cell
-        vertical-align middle
-
+    .col-sm-6 > h4
+        color: #428bca
 </style>

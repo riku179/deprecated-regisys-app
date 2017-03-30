@@ -3,7 +3,7 @@ transition(name="modal")
     .vuemodal-close-area(@click="$emit('close')")
     .vuemodal-wrapper
       .vuemodal-container(:style="{ width: width + 'px' }")
-        span#close.glyphicon.glyphicon-remove.pull-right(@click="$emit('close')" aria-hidden="true")
+        span.close-btn.glyphicon.glyphicon-remove.pull-right(@click="$emit('close')" aria-hidden="true")
         .vuemodal-header
           h3
             slot(name="header") default header
