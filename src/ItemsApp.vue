@@ -77,6 +77,7 @@
         }
 
         addItem() {
+            this.initForm()
             // TODO コンポーネント化
             if(this.formItemName.length === 0 || this.formItemName.length > 20) {
                 this.itemNameIsValid = false
@@ -121,13 +122,13 @@
                         this.showAddModal = false
                         this.switchUserList()
                     } else {
-                        this.fetchError = r.statusText
+                        alert(r.statusText)
                     }
                 },
                 err => {
-                this.fetchError = "ネットワークエラーが発生しました"
-                console.log(err)
-            })
+                    alert("ネットワークエラーが発生しました")
+                    console.log(err)
+                })
         }
 
         openEditItemModal(item: Item) {
@@ -147,13 +148,13 @@
                 body.item_name = this.formItemName
             }
             if(this.formItemPrice != "") {
-                body.price = Number(this.formItemPrice)
+                body.price = this.formItemPrice
             }
             if(this.formMemberDiscount != "0") {
                 body.member_price = Number(this.formItemPrice) - Number(this.formMemberDiscount)
             }
             if(this.formItemQuantity != "") {
-                body.quantity = Number(this.formItemQuantity)
+                body.quantity = this.formItemQuantity
             }
             fetch("/api/item/" + this.currentItem.id, {
                 method: "PUT",
@@ -165,6 +166,8 @@
                 if(r.ok) {
                     this.showEditModal = false
                     this.switchUserList()
+                } else {
+                    alert(r.statusText)
                 }
             })
         }
@@ -179,6 +182,8 @@
                 if(r.ok) {
                     this.showRemoveModal = false
                     this.switchUserList()
+                } else {
+                    alert(r.statusText)
                 }
             })
         }
@@ -203,6 +208,8 @@
 </script>
 
 <style lang="stylus">
+    .container > button
+        margin 5px
     .add-btn
         width 100%
 

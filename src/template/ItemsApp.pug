@@ -3,8 +3,11 @@
 
   h2 Items
 
+  button.btn.btn-default.pull-right(type="button")
+    span.glyphicon.glyphicon-cloud-download(aria-hidden="true") 値札発行
   button.btn.btn-primary.pull-right(type="button", @click="showAddModal = true")
     span.glyphicon.glyphicon-plus(aria-hidden="true") 新規登録
+
 
   ul.nav.nav-tabs
     li(:class="{ active: menu === 'user'}", @click="switchUserList" role="presentation")
@@ -82,7 +85,6 @@
 
     template(slot="footer")
       button.btn.btn-default.add-btn(@click="addItem" type="button") 追加
-      .alert.alert-danger(v-if="fetchError" role="alert") {{ fetchError }}
 
   modal(v-if="showEditModal", @close="showEditModal = false", :initWidth="800")
     template(slot="header") 商品の編集
@@ -117,21 +119,21 @@
         h4 変更後
         .form-group(:class="{ 'has-error': !itemNameIsValid }")
           label.control-label 商品名
-          input.form-control(type="text", @input="formItemName = $event.target.value")
+          input.form-control(type="text", v-model.trim="formItemName")
           label.control-label(v-if="!itemNameIsValid") ２０文字以上もしくは空白のみは不可です
 
         .form-group(:class="{ 'has-error': !itemPriceIsValid }")
           label.control-label 一般価格
           .input-group
             span.input-group-addon ￥
-            input.form-control(type="text", @input="formItemPrice = $event.target.value")
+            input.form-control(type="text", v-model.number="formItemPrice")
           label.control-label(v-if="!itemPriceIsValid") 入力が不正です
 
         .form-group(:class="{ 'has-error': !memDiscountIsValid }")
           label.control-label 部員への割引
           .input-group
             span.input-group-addon ￥
-            input.form-control(type="text", @input="formMemberDiscount = $event.target.value")
+            input.form-control(type="text", v-model.number="formMemberDiscount")
           label.control-label(v-if="!memDiscountIsValid") 入力が不正です
 
           label
@@ -139,7 +141,7 @@
 
         .form-group(:class="{ 'has-error': !itemQuantityIsValid }")
           label.control-label 個数
-          input.form-control(type="text", @input="formItemQuantity = $event.target.value")
+          input.form-control(type="text", v-model.number="formItemQuantity")
           label.control-label(v-if="!itemQuantityIsValid") 入力が不正です
 
     template(slot="footer")
