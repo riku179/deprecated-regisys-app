@@ -24,10 +24,10 @@
 
         jwt = auth.GetToken() as auth.JWT
         // Form
-        newItemName = ""
-        newItemPrice = ""
-        memberDiscount = "0"
-        newItemQuantity = ""
+        formItemName: string
+        formItemPrice: string
+        formMemberDiscount: string
+        formItemQuantity: string
         // Validation
         itemNameIsValid = true
         itemPriceIsValid = true
@@ -39,6 +39,7 @@
 
         // lifecycle method
         created() {
+            this.initForm()
             this.switchUserList()
         }
 
@@ -77,26 +78,26 @@
 
         addItem() {
             // TODO コンポーネント化
-            if(this.newItemName.length === 0 || this.newItemName.length > 20) {
+            if(this.formItemName.length === 0 || this.formItemName.length > 20) {
                 this.itemNameIsValid = false
                 return
             } else {
                 this.itemNameIsValid = true
             }
-            if(!validNaturalNum(this.newItemPrice) || Number(this.newItemPrice) === 0) {
+            if(!validNaturalNum(this.formItemPrice) || Number(this.formItemPrice) === 0) {
                 this.itemPriceIsValid = false
                 return
             } else {
                 this.itemPriceIsValid = true
             }
-            if(!validNaturalNum(this.memberDiscount) || (Number(this.newItemPrice) < Number(this.memberDiscount))) {
+            if(!validNaturalNum(this.formMemberDiscount) || (Number(this.formItemPrice) < Number(this.formMemberDiscount))) {
                 this.memDiscountIsValid = false
                 return
             } else {
                 this.memDiscountIsValid = true
             }
-            if(!validNaturalNum(this.newItemQuantity) || Number(this.newItemQuantity) === 0) {
-                console.log(this.newItemQuantity)
+            if(!validNaturalNum(this.formItemQuantity) || Number(this.formItemQuantity) === 0) {
+                console.log(this.formItemQuantity)
                 this.itemQuantityIsValid = false
                 return
             } else {
@@ -109,10 +110,10 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    item_name: this.newItemName,
-                    price: this.newItemPrice,
-                    member_price: Number(this.newItemPrice) - Number(this.memberDiscount),
-                    quantity: this.newItemQuantity,
+                    item_name: this.formItemName,
+                    price: this.formItemPrice,
+                    member_price: Number(this.formItemPrice) - Number(this.formMemberDiscount),
+                    quantity: this.formItemQuantity,
                 })
             }).then(r => {
                     if(r.ok) {
@@ -130,6 +131,7 @@
         }
 
         openEditItemModal(item: Item) {
+            this.initForm()
             this.currentItem = item
             this.showEditModal = true
         }
@@ -140,17 +142,25 @@
         }
 
         editItem() {
+            let body = {} as any
+            if(this.formItemName != "") {
+                body.item_name = this.formItemName
+            }
+            if(this.formItemPrice != "") {
+                body.price = Number(this.formItemPrice)
+            }
+            if(this.formMemberDiscount != "0") {
+                body.member_price = Number(this.formItemPrice) - Number(this.formMemberDiscount)
+            }
+            if(this.formItemQuantity != "") {
+                body.quantity = Number(this.formItemQuantity)
+            }
             fetch("/api/item/" + this.currentItem.id, {
                 method: "PUT",
                 headers: {
                     "Authorization": GetJWTHeader(),
                 },
-                body: JSON.stringify({
-                    item_name: this.newItemName,
-                    price: this.newItemPrice,
-                    member_price: Number(this.newItemPrice) - Number(this.memberDiscount),
-                    quantity: this.newItemQuantity,
-                })
+                body: JSON.stringify(body)
             }).then(r => {
                 if(r.ok) {
                     this.showEditModal = false
@@ -171,6 +181,13 @@
                     this.switchUserList()
                 }
             })
+        }
+
+        initForm() {
+            this.formItemName = ""
+            this.formItemPrice = ""
+            this.formMemberDiscount = "0"
+            this.formItemQuantity = ""
         }
     }
 

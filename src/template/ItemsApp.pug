@@ -55,29 +55,29 @@
     template(slot="body")
       .form-group(:class="{ 'has-error': !itemNameIsValid }")
         label.control-label 商品名
-        input.form-control(type="text" v-model.trim="newItemName" placeholder="学位記")
+        input.form-control(type="text" v-model.trim="formItemName" placeholder="学位記")
         label.control-label(v-if="!itemNameIsValid") ２０文字以上もしくは空白のみは不可です
 
       .form-group(:class="{ 'has-error': !itemPriceIsValid }")
         label.control-label 一般価格
         .input-group
           span.input-group-addon ￥
-          input.form-control(type="text" v-model.number.trim="newItemPrice"   placeholder="130")
+          input.form-control(type="text" v-model.number.trim="formItemPrice"   placeholder="130")
         label.control-label(v-if="!itemPriceIsValid") 入力が不正です
 
       .form-group(:class="{ 'has-error': !memDiscountIsValid }")
         label.control-label 部員への割引
         .input-group
           span.input-group-addon ￥
-          input.form-control(type="text" v-model.number.trim="memberDiscount")
+          input.form-control(type="text" v-model.number.trim="formMemberDiscount")
         label.control-label(v-if="!memDiscountIsValid") 入力が不正です
 
         label
-          span.glyphicon.glyphicon-circle-arrow-right(aria-hidden="true")  部員価格 : ￥{{ newItemPrice - memberDiscount }}
+          span.glyphicon.glyphicon-circle-arrow-right(aria-hidden="true")  部員価格 : ￥{{ formItemPrice - formMemberDiscount }}
 
       .form-group(:class="{ 'has-error': !itemQuantityIsValid }")
         label.control-label 個数
-        input.form-control(type="text" v-model.number.trim="newItemQuantity"   placeholder="3")
+        input.form-control(type="text" v-model.number.trim="formItemQuantity"   placeholder="3")
         label.control-label(v-if="!itemQuantityIsValid") 入力が不正です
 
     template(slot="footer")
@@ -117,29 +117,29 @@
         h4 変更後
         .form-group(:class="{ 'has-error': !itemNameIsValid }")
           label.control-label 商品名
-          input.form-control(type="text", @input="newItemName = $event.target.value")
+          input.form-control(type="text", @input="formItemName = $event.target.value")
           label.control-label(v-if="!itemNameIsValid") ２０文字以上もしくは空白のみは不可です
 
         .form-group(:class="{ 'has-error': !itemPriceIsValid }")
           label.control-label 一般価格
           .input-group
             span.input-group-addon ￥
-            input.form-control(type="text", @input="newItemName = $event.target.value")
+            input.form-control(type="text", @input="formItemPrice = $event.target.value")
           label.control-label(v-if="!itemPriceIsValid") 入力が不正です
 
         .form-group(:class="{ 'has-error': !memDiscountIsValid }")
           label.control-label 部員への割引
           .input-group
             span.input-group-addon ￥
-            input.form-control(type="text", @input="memberDiscount = $event.target.value")
+            input.form-control(type="text", @input="formMemberDiscount = $event.target.value")
           label.control-label(v-if="!memDiscountIsValid") 入力が不正です
 
           label
-            span.glyphicon.glyphicon-circle-arrow-right(aria-hidden="true")  部員価格 : ￥{{ newItemPrice - memberDiscount }}
+            span.glyphicon.glyphicon-circle-arrow-right(aria-hidden="true")  部員価格 : ￥{{ formItemPrice - formMemberDiscount }}
 
         .form-group(:class="{ 'has-error': !itemQuantityIsValid }")
           label.control-label 個数
-          input.form-control(type="text", @input="newItemQuantity = $event.target.value")
+          input.form-control(type="text", @input="formItemQuantity = $event.target.value")
           label.control-label(v-if="!itemQuantityIsValid") 入力が不正です
 
     template(slot="footer")
