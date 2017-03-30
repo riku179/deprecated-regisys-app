@@ -1,0 +1,160 @@
+.container
+  app-navbar
+
+  h2 Items
+
+  button.btn.btn-default.pull-right(type="button")
+    span.glyphicon.glyphicon-cloud-download(aria-hidden="true") 値札発行
+  button.btn.btn-primary.pull-right(type="button", @click="showAddModal = true")
+    span.glyphicon.glyphicon-plus(aria-hidden="true") 新規登録
+
+
+  ul.nav.nav-tabs
+    li(:class="{ active: menu === 'user'}", @click="switchUserList" role="presentation")
+      a あなたの商品
+    li(:class="{ active: menu === 'all' }", @click="switchAllList" role="presentation")
+      a 全商品
+
+  table.table
+    template(v-if="menu === 'user'")
+      thead
+        tr
+          th ID
+          th 商品名
+          th 価格
+          th 部員価格
+          th 数量
+          th
+      tbody
+        tr(v-for="item in userItems")
+          th {{ item.id }}
+          th {{ item.item_name }}
+          th {{ item.price }}
+          th {{ item.member_price }}
+          th {{ item.quantity }}
+          th
+            span.glyphicon.glyphicon-pencil(@click="openEditItemModal(item)" aria-hidden="true" title="編集")
+            span.glyphicon.glyphicon-remove(@click="openRemoveItemModal(item)" aria-hidden="true" title="削除")
+
+    template(v-else-if="menu === 'all'")
+      thead
+        tr
+          th ID
+          th 商品名
+          th 価格
+          th 部員価格
+          th 数量
+      tbody
+        tr(v-for="item in allItems")
+          th {{ item.id }}
+          th {{ item.item_name }}
+          th {{ item.price }}
+          th {{ item.member_price }}
+          th {{ item.quantity }}
+
+  modal(v-if="showAddModal", @close="showAddModal = false")
+    template(slot="header") 新規商品登録
+
+    template(slot="body")
+      .form-group(:class="{ 'has-error': !itemNameIsValid }")
+        label.control-label 商品名
+        input.form-control(type="text" v-model.trim="formItemName" placeholder="学位記")
+        label.control-label(v-if="!itemNameIsValid") ２０文字以上もしくは空白のみは不可です
+
+      .form-group(:class="{ 'has-error': !itemPriceIsValid }")
+        label.control-label 一般価格
+        .input-group
+          span.input-group-addon ￥
+          input.form-control(type="text" v-model.number.trim="formItemPrice"   placeholder="130")
+        label.control-label(v-if="!itemPriceIsValid") 入力が不正です
+
+      .form-group(:class="{ 'has-error': !memDiscountIsValid }")
+        label.control-label 部員への割引
+        .input-group
+          span.input-group-addon ￥
+          input.form-control(type="text" v-model.number.trim="formMemberDiscount")
+        label.control-label(v-if="!memDiscountIsValid") 入力が不正です
+
+        label
+          span.glyphicon.glyphicon-circle-arrow-right(aria-hidden="true")  部員価格 : ￥{{ formItemPrice - formMemberDiscount }}
+
+      .form-group(:class="{ 'has-error': !itemQuantityIsValid }")
+        label.control-label 個数
+        input.form-control(type="text" v-model.number.trim="formItemQuantity"   placeholder="3")
+        label.control-label(v-if="!itemQuantityIsValid") 入力が不正です
+
+    template(slot="footer")
+      button.btn.btn-default.add-btn(@click="addItem" type="button") 追加
+
+  modal(v-if="showEditModal", @close="showEditModal = false", :initWidth="800")
+    template(slot="header") 商品の編集
+
+    template(slot="body")
+      .col-sm-6
+        h4 現在
+        .form-group
+          label.control-label 商品名
+          input.form-control(type="text", :value="currentItem.item_name" readonly)
+
+        .form-group
+          label.control-label 一般価格
+          .input-group
+            span.input-group-addon ￥
+            input.form-control(type="text", :value="currentItem.price" readonly)
+
+        .form-group
+          label.control-label 部員への割引
+          .input-group
+            span.input-group-addon ￥
+            input.form-control(type="text", :value="currentItem.price - currentItem.member_price" readonly)
+
+          label
+            span.glyphicon.glyphicon-circle-arrow-right(aria-hidden="true")  部員価格 : ￥{{ currentItem.member_price }}
+
+        .form-group
+          label.control-label 個数
+          input.form-control(type="text", :value="currentItem.quantity" readonly)
+
+      .col-sm-6
+        h4 変更後
+        .form-group(:class="{ 'has-error': !itemNameIsValid }")
+          label.control-label 商品名
+          input.form-control(type="text", v-model.trim="formItemName")
+          label.control-label(v-if="!itemNameIsValid") ２０文字以上もしくは空白のみは不可です
+
+        .form-group(:class="{ 'has-error': !itemPriceIsValid }")
+          label.control-label 一般価格
+          .input-group
+            span.input-group-addon ￥
+            input.form-control(type="text", v-model.number="formItemPrice")
+          label.control-label(v-if="!itemPriceIsValid") 入力が不正です
+
+        .form-group(:class="{ 'has-error': !memDiscountIsValid }")
+          label.control-label 部員への割引
+          .input-group
+            span.input-group-addon ￥
+            input.form-control(type="text", v-model.number="formMemberDiscount")
+          label.control-label(v-if="!memDiscountIsValid") 入力が不正です
+
+          label
+            span.glyphicon.glyphicon-circle-arrow-right(aria-hidden="true")  部員価格 : ￥{{ formItemPrice - formMemberDiscount }}
+
+        .form-group(:class="{ 'has-error': !itemQuantityIsValid }")
+          label.control-label 個数
+          input.form-control(type="text", v-model.number="formItemQuantity")
+          label.control-label(v-if="!itemQuantityIsValid") 入力が不正です
+
+    template(slot="footer")
+      button.btn.btn-default.edit-btn(@click="editItem" type="button") 適用
+
+  modal(v-if="showRemoveModal", @close="showRemoveModal = false")
+    template(slot="header") 商品の削除
+
+    template(slot="body")
+      h3 本当に削除しますか？
+      p 元にに戻すことはできません。
+      p また、既に会計処理が発生した商品は削除することができません。
+
+    template(slot="footer")
+      button.btn.btn-danger.remove-btn(@click="removeItem" type="button") 削除
+      button.btn.btn-default.cancel-btn(@click="showRemoveModal = false" type="button") キャンセル

@@ -10,8 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.0",
+    "pug": "^2.0.0-beta11",
     "vue": "^2.2.2",
-    "vue-router": "^2.3.0"
+    "vue-property-decorator": "^4.0.0",
+    "vue-router": "^2.3.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "babel": "^6.23.0",
@@ -22,7 +27,7 @@
     "gulp": "^3.9.1",
     "gulp-plumber": "^1.1.0",
     "gulp-webserver": "^0.9.1",
-    "morgan": "^1.8.1",
+    "pug-loader": "^2.3.0",
     "ts-loader": "^2.0.1",
     "tslint": "^4.5.1",
     "tslint-loader": "^3.4.3",
@@ -32,10 +37,8 @@
     "vue-html-loader": "^1.2.4",
     "vue-loader": "^11.1.4",
     "vue-template-compiler": "^2.2.2",
-    "vue-ts-loader": "0.0.3",
     "webpack": "^2.2.1",
     "webpack-closure-compiler": "^2.1.4",
-    "webpack-stream": "^3.2.0",
-    "whatwg-fetch": "^2.0.3"
+    "webpack-stream": "^3.2.0"
   }
 }

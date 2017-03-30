@@ -1,0 +1,13 @@
+transition(name="modal")
+  .vuemodal-mask
+    .vuemodal-close-area(@click="$emit('close')")
+    .vuemodal-wrapper
+      .vuemodal-container(:style="{ width: width + 'px' }")
+        span.close-btn.glyphicon.glyphicon-remove.pull-right(@click="$emit('close')" aria-hidden="true")
+        .vuemodal-header
+          h3
+            slot(name="header") default header
+        .vuemodal-body
+          slot(name="body") default body
+        .vuemodal-footer
+          slot(name="footer") default footer

@@ -3,7 +3,6 @@ const plumber = require('gulp-plumber')
 const webserver = require('gulp-webserver')
 const webpack = require('webpack')
 const webpackStream = require('webpack-stream')
-const morgan = require('morgan')
 const webpackConfig = require('./webpack.config.js')
 
 gulp.task('webpack', function () {
@@ -25,13 +24,17 @@ gulp.task('webserver', function () {
                         target: 'http://localhost:8080/'
                     }
                 ],
-                middleware: morgan("combined")
             })
         )
 });
 
 gulp.task('watch', function () {
-    gulp.watch('./src/**/*', ['webpack']);
+    gulp.watch([
+        './src/**/*.ts',
+        './src/**/*.vue',
+        './src/**/*.pug',
+        './dst/index.html'
+    ], ['webpack']);
 });
 
 gulp.task('default', ['webpack', 'watch', 'webserver']);

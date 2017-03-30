@@ -1,0 +1,22 @@
+nav.navbar.navbar-default.navbar-static-top
+  .container-fluid
+    .navbar-header
+      button.navbar-toggle.collapsed(
+      type="button"
+      data-toggle="collapse"
+      data-target="#menu")
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      router-link.navbar-brand(to="/dashboard") Regisys
+    #menu.collapse.navbar-collapse
+      ul.nav.navbar-nav(v-if="login")
+        menu-item(v-for="(menu, index) in menus",
+        :key="menu",
+        :menu="menu")
+      button.btn.btn-default.navbar-btn.navbar-right(
+      type="button", @click="logout", :style='{ display: (login ? "" : "none") }') ログアウト
+      p#login-user.navbar-text.navbar-right(
+      :style='{display: jwt ? "" : "none"}') ログイン中 : #[strong {{ jwt ? jwt.username : ""}}] ({{authority}})
+
