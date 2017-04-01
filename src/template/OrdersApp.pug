@@ -1,2 +1,36 @@
 .container
-    app-navbar
+  app-navbar
+
+  h2 Orders
+
+  ul.nav.nav-tabs
+    li(:class="{ active: menu === 'user'}", @click="switchUserList" role="presentation")
+      a あなたの売上
+    li(:class="{ active: menu === 'all' }", @click="switchAllList" role="presentation")
+      a 全売上
+
+  table.table
+    thead
+      tr
+        th ID
+        th 商品名
+        th 価格
+        th 数量
+        th 日時
+    tbody
+    template(v-if="menu === 'user'")
+      tr(v-for="order in userOrders")
+        th {{ order.id }}
+        th {{ order.item_name }}
+        th {{ order.price }}
+        th {{ order.quantity }}
+        th {{ convertUnixTime(order.datetime) }}
+
+    template(v-if="menu === 'all'")
+      tr(v-for="order in allOrders")
+        th {{ order.id }}
+        th {{ order.item_name }}
+        th {{ order.price }}
+        th {{ order.quantity }}
+        th {{ convertUnixTime(order.datetime) }}
+

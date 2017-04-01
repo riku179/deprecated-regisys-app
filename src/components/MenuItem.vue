@@ -7,13 +7,13 @@
     import Vue from "vue"
     import Component from "vue-class-component"
     import {Prop} from "vue-property-decorator"
-    import {IMenu} from "../types"
+    import {NavMenu} from "../types"
     import * as auth from "../lib/auth"
 
     @Component
     export default class MenuItem extends Vue {
         @Prop
-        menu: IMenu
+        menu: NavMenu
 
         get isActive() {
             return this.menu.path === this.$route.path

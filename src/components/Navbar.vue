@@ -7,7 +7,7 @@
     import {router} from '../router'
     import * as auth from '../lib/auth'
     import {Prop} from "vue-property-decorator"
-    import {IMenu} from "../types"
+    import {NavMenu} from "../types"
 
     @Component({
         components: {
@@ -24,7 +24,7 @@
 
         jwt = auth.GetToken()
 
-        menus: Array<IMenu> = [
+        menus: Array<NavMenu> = [
             { val: "商品", path: "/items", adminOnly: false},
             { val: "売上", path: "/orders", adminOnly: false},
             { val: "ユーザー", path: "/users", adminOnly: false},

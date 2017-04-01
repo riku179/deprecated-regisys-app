@@ -3,7 +3,7 @@
 <script lang="ts">
     import Vue from "vue"
     import Component from "vue-class-component"
-    import {Item} from "./types"
+    import {Item, TabMenu} from "./types"
     import {GetJWTHeader} from "./lib/auth"
     import * as auth from "./lib/auth"
     import "whatwg-fetch"
@@ -11,15 +11,16 @@
     @Component
     export default class ItemsApp extends Vue {
         // タブメニュー
-        menu: Menu = "user"
+        menu: TabMenu = "user"
         // Modal
         showAddModal = false
         showEditModal = false
         showRemoveModal = false
-        // List
+
         userItems: Array<Item> = []
         allItems: Array<Item> = []
 
+        // 編集中のItem
         currentItem: Item
 
         jwt = auth.GetToken() as auth.JWT
@@ -28,14 +29,11 @@
         formItemPrice: string
         formMemberDiscount: string
         formItemQuantity: string
-        // Validation
+        // Validationフラグ
         itemNameIsValid = true
         itemPriceIsValid = true
         memDiscountIsValid = true
         itemQuantityIsValid = true
-
-        // Error message
-        fetchError = ""
 
         // lifecycle method
         created() {
@@ -43,6 +41,7 @@
             this.switchUserList()
         }
 
+        // method
         switchUserList() {
             this.menu = "user"
             fetch("/api/item?user=" + this.jwt.sub, {
@@ -51,11 +50,13 @@
                     "Authorization": GetJWTHeader()
                 }
             }).then(r => {
-                r.json().then(data => {
-                    this.userItems = data as Array<Item>
-                })
-            }, err => {
-                console.log(err)
+                if(r.ok) {
+                    r.json().then(data => {
+                        this.userItems = data as Array<Item>
+                    })
+                } else {
+                    alert(r.statusText)
+                }
             })
         }
 
@@ -67,12 +68,13 @@
                     "Authorization": GetJWTHeader()
                 }
             }).then(r => {
-                r.json().then(data => {
-                    this.allItems = data as Array<Item>
-                })
-                this.menu = "all"
-            }, err => {
-                console.log(err)
+                if(r.ok) {
+                    r.json().then(data => {
+                        this.allItems = data as Array<Item>
+                    })
+                } else {
+                    alert(r.statusText)
+                }
             })
         }
 
@@ -117,18 +119,13 @@
                     quantity: this.formItemQuantity,
                 })
             }).then(r => {
-                    if(r.ok) {
-                        this.fetchError = ""
-                        this.showAddModal = false
-                        this.switchUserList()
-                    } else {
-                        alert(r.statusText)
-                    }
-                },
-                err => {
-                    alert("ネットワークエラーが発生しました")
-                    console.log(err)
-                })
+                if(r.ok) {
+                    this.showAddModal = false
+                    this.switchUserList()
+                } else {
+                    alert(r.statusText)
+                }
+            })
         }
 
         openEditItemModal(item: Item) {
@@ -163,13 +160,17 @@
                 },
                 body: JSON.stringify(body)
             }).then(r => {
-                if(r.ok) {
-                    this.showEditModal = false
-                    this.switchUserList()
-                } else {
-                    alert(r.statusText)
-                }
-            })
+                    if(r.ok) {
+                        this.showEditModal = false
+                        this.switchUserList()
+                    } else {
+                        alert(r.statusText)
+                    }
+                },
+                err => {
+                    alert("ネットワークエラーが発生しました")
+                    console.log(err)
+                })
         }
 
         removeItem() {
@@ -179,13 +180,17 @@
                     "Authorization": GetJWTHeader(),
                 }
             }).then(r => {
-                if(r.ok) {
-                    this.showRemoveModal = false
-                    this.switchUserList()
-                } else {
-                    alert(r.statusText)
-                }
-            })
+                    if(r.ok) {
+                        this.showRemoveModal = false
+                        this.switchUserList()
+                    } else {
+                        alert(r.statusText)
+                    }
+                },
+                err => {
+                    alert("ネットワークエラーが発生しました")
+                    console.log(err)
+                })
         }
 
         initForm() {
@@ -204,10 +209,12 @@
         }
     }
 
-    type Menu = "user" | "all"
 </script>
 
 <style lang="stylus">
+    ul.nav.nav-tabs > li > a
+        cursor pointer
+
     .container > button
         margin 5px
     .add-btn
